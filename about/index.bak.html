@@ -1,15 +1,113 @@
----
-layout: default
-title: About 
----
+<!DOCTYPE html>
+<html>
+<head>
+<title>SE Asia Flood Dashboard</title>
 
-		<div class="about">
-			<h1>About</h1>
-			<p>You can optionally insert a brief bio here. You went to this school, you studied that, you now work in this field with research interests in that subject. At your previous position at this place, you worked on this or that. You can list some of your significant accomplishments, awards, or recognition here as well. You live in this city with these animals and people. In your free time you like X, Y, and Z.</p>
+<style>
+   html { height: 100%; }
+   body { height: 100%; margin: 0; padding: 0; }
+   #map_canvas { height: 100%; }
 
-			<ul class="contacts">
-				<li><a href="#">@TwitterHandle</a></li>
-				<li><a href="#">Your Departmental Webpage</a></li>
-				<li><a href="#">Another site you want to link to</a></li>
-				</ul>
-		</div>
+   #checkboxes {
+  	position: absolute;
+  	top: 30px;
+  	right: 10px;
+  	font-family: 'arial', 'sans-serif';
+  	font-size: 14px;
+  	background-color: white;
+  	border: 1px solid black;
+  	padding: 5px 10px;
+    }
+    
+  #logo {
+  	position: absolute;
+  	top: 40px;
+  	right: 55px;
+  	background-color: white;
+    }
+    
+</style>
+
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
+<script type="text/javascript">
+
+var map;
+var layers = [];
+
+  function initialize() {
+    var myLatLng = new google.maps.LatLng(18.485,104.049);
+    var myOptions = {
+      zoom: 6,
+      center: myLatLng,
+      mapTypeId: google.maps.MapTypeId.HYBRID
+    }
+    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+
+
+layers [0] = new google.maps.KmlLayer('http://sharemap.org/mapcontent/library/Rivers_50m/Mekong_river_river.kml',
+  {preserveViewport: true, suppressInfoWindows: false});
+
+layers [1] = new google.maps.KmlLayer('http://trmm.gsfc.nasa.gov/trmm_rain/Events/GOOGLE_SOUTHEAST_ASIA_FLOOD_POTENTIAL.kml',
+  {preserveViewport: true, suppressInfoWindows: false});
+
+layers [2] = new google.maps.KmlLayer('http://trmm.gsfc.nasa.gov/trmm_rain/Events/GOOGLE_SOUTHEAST_ASIA_48hr_fcst.kml',
+  {preserveViewport: true, suppressInfoWindows: false});
+  
+layers [3] = new google.maps.KmlLayer('http://trmm.gsfc.nasa.gov/trmm_rain/Events/GOOGLE_SOUTHEAST_ASIA_rain_accumulation_3hr.kml',
+  {preserveViewport: true, suppressInfoWindows: false});
+  
+layers [4] = new google.maps.KmlLayer('http://matsu-seasia.opensciencedatacloud.org//layers/file/1574',
+  {preserveViewport: true, suppressInfoWindows: false});
+  
+layers [5] = new google.maps.KmlLayer('http://matsu-seasia.opensciencedatacloud.org//layers/file/1573',
+  {preserveViewport: true, suppressInfoWindows: false});
+
+layers [6] = new google.maps.KmlLayer('http://192.170.232.61:8080/geoserver/DEVELOP/wms/reflect?layers=DEVELOP:NDVIChangeProduct&format=kml&SRS=epsg:4326',
+  {preserveViewport: false, suppressInfoWindows: false});
+
+
+layers [7] = new google.maps.TrafficLayer();
+
+for (var i = 0; i < layers.length; i++) {
+        layers[i].setMap(null);
+      }
+  }
+
+function toggleLayer(i) {
+  if (layers[i].getMap() === null) {
+    layers[i].setMap(map);
+  }
+  else {
+    layers[i].setMap(null);
+  }
+}
+
+</script>
+</head>
+
+<body onload="initialize()">
+
+<div id="map_canvas"></div>
+<div id="logo"></div>
+</div>
+<div id="checkboxes">
+
+<br><p NASA SE Asia Flood Dash/p> <br />
+  <input type="checkbox" id="layer0" onClick="toggleLayer(0)"/>Mekong River <br />
+  <input type="checkbox" id="layer1" onClick="toggleLayer(1)"/>Flood Potential <br />
+  <input type="checkbox" id="layer2" onClick="toggleLayer(2)"/>48 Hour Precip. <br />
+  <input type="checkbox" id="layer3" onClick="toggleLayer(3)"/>3 Hour Precip. <br />
+  <input type="checkbox" id="layer4" onClick="toggleLayer(4)"/>River Gages <br />
+  <input type="checkbox" id="layer5" onClick="toggleLayer(5)"/>Dams <br />
+  <input type="checkbox" id="layer6" onClick="toggleLayer(6)"/>Real Time Flood <br />
+  <input type="checkbox" id="layer7" onClick="toggleLayer(7)"/>Traffic 
+</div>
+<div id="logo">
+     <a href=""><img src="http://www.nasa.gov/sites/default/files/images/nasaLogo-570x450.png" width="50" height="36" alt=""></a>
+</div>
+</body>
+
+
+</html>
