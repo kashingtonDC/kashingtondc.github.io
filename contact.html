@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Aakash Ahamed</title>	
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+		<script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" text ="javascript"></script>
+        <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" text="javascript"></script>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+			.social-icons {
+			    text-align: center;
+			}
+			.social-icons li {
+			    display:inline-block;
+			    list-style-type:none;
+			    -webkit-user-select:none;
+			    -moz-user-select:none;
+			}
+			.social-icons li a {
+			    border-bottom: none;
+			}
+			.social-icons li img {
+			    width:70px;
+			    height:70px;
+			    margin-right: 20px;
+			}
+		</style>
+    </head>
+
+	<body> 
+		<div class="container">
+		      <!-- Static navbar -->
+		      <nav class="navbar navbar-default">
+		        <div class="container-fluid">
+		          <div class="navbar-header">
+		            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+		              <span class="sr-only">Toggle navigation</span>
+		              <span class="icon-bar"></span>
+		              <span class="icon-bar"></span>
+		              <span class="icon-bar"></span>
+		            </button>
+		           	<a href="/" class="pull-left"><img src="http://numb3rs.wolfram.com/418/images/HyperbolicTessellation.gif" width="45" height="45" hspace = "10"> </a>
+		            <a class="navbar-brand" href="/">Aakash Ahamed</a>
+		          </div>
+		          <div id="navbar" class="navbar-collapse collapse">
+		            <ul class="nav navbar-nav">
+		              <li><a href="/">Home</a></li>
+		              <li><a href="/about.html">About</a></li>
+		              <li><a href="/cv.html">CV</a></li>
+		              <li><a href="/research.html">Research</a></li>
+		              <li class="active"><a href="/contact">Contact</a></li>
+		              </li>
+		            </ul>
+		          </div><!--/.nav-collapse -->
+		        </div><!--/.container-fluid -->
+		      </nav>
+
+		<div class = "container-fluid">
+			<div class = "row", style="height:100%;">
+				<div class = "col-md-4", style = "height:100%">
+					<div class = "well">
+						<form id="contactform" action="//formspree.io/aakashahamed@gmail.com" method="POST">
+						    <input type="text" name="name" placeholder="Your name"><br>
+						    <input type="email" name="_replyto" placeholder="Your email address"><br>
+						    <input type="hidden" name="_subject" value="Website contact" /><br>
+						    <textarea name="message" placeholder="Your message"></textarea><br>
+						    <input type="text" name="_gotcha" style="display:none" />
+						    <input type="submit" value="Send">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+		    var contactform =  document.getElementById('contactform');
+		    contactform.setAttribute('action', '//formspree.io/' + 'aakashahamed' + '@' + 'gmail' + '.' + 'com');
+		</script>
+	</body>
+</html>	
