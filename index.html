@@ -148,7 +148,7 @@
         @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
         @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
         @keyframes blink{0%,100%{opacity:.35}50%{opacity:1}}
-        .fi{opacity:0;transform:translateY(30px);transition:opacity .7s,transform .7s}.fi.vis{opacity:1;transform:translateY(0)}
+        .fi{opacity:0;transform:translateY(30px);transition:opacity .7s,transform .7s}.fi.vis{opacity:1;transform:translateY(0)}@media(prefers-reduced-motion:reduce){.fi{opacity:1;transform:none}}
 
         @media(max-width:920px){.about-grid{grid-template-columns:1fr}.rcard-head{grid-template-columns:1fr}.rcard-vis{min-height:200px}.gs-i{width:50vw}.recog-item{grid-template-columns:90px 1fr;gap:1rem}}
         @media(max-width:600px){nav{padding:.7rem 1.2rem}.nav-links{display:none}.nav-links.open{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:rgba(6,11,20,.97);padding:1rem 1.5rem;gap:.9rem;border-bottom:1px solid var(--border)}.hamburger{display:block}.hero-content{padding:0 1.5rem 3.5rem}.container{padding:0 1.2rem}section{padding:4rem 0}.cg{grid-template-columns:1fr 1fr}.gs-i{width:100vw}.pf-grid{grid-template-columns:1fr}.pf-controls{flex-direction:column;align-items:flex-start}.recog-item{grid-template-columns:1fr;gap:.2rem}.hero-eq{font-size:clamp(2.8rem,12vw,5rem)}.rcard-metrics{flex-wrap:wrap;gap:1rem}}
@@ -346,54 +346,68 @@
         <a href="https://www.linkedin.com/in/aakashahamed/" target="_blank" class="cl"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
         <a href="https://nres.calpoly.edu/dr-aakash-ahamed" target="_blank" class="cl"><svg viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>Cal Poly</a>
         <a href="https://substack.com/@backpackersci" target="_blank" class="cl"><svg viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>Substack</a>
-        <a href="/cdn-cgi/l/email-protection#4021212b2133282128212d252400272d21292c6e232f2d" class="cl"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>Email</a>
+        <a href="mailto:aakashahamed@gmail.com" class="cl"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>Email</a>
     </div>
 </div></section>
 
 <footer><p>Aakash Ahamed &copy; 2026 &middot; <span class="co">35.2828&deg; N, 120.6596&deg; W</span> &middot; San Luis Obispo, CA</p></footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
+// Nav scroll
 const nav=document.getElementById('nav');
 window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60));
 const hb=document.getElementById('hamburger'),nl=document.getElementById('navLinks');
 hb.addEventListener('click',()=>nl.classList.toggle('open'));
 nl.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nl.classList.remove('open')));
-const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis')});},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
+
+// Fade-in observer — set up FIRST so content is always revealed
+const obs=new IntersectionObserver(entries=>{
+    entries.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis');});
+},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
 
+// Fallback: reveal everything after 2s in case observer fails
+setTimeout(()=>{document.querySelectorAll('.fi').forEach(el=>el.classList.add('vis'));},2000);
+
 // Rotating gallery
-(function(){
+try{
     const track=document.getElementById('gsTrack');
     const slides=track.querySelectorAll('.gs-i');
     const dotsC=document.getElementById('gsDots');
     const total=slides.length;
-    const visible=window.innerWidth<=600?1:window.innerWidth<=920?2:3;
-    const pages=Math.ceil(total/visible);
+    function getVisible(){return window.innerWidth<=600?1:window.innerWidth<=920?2:3;}
+    let visible=getVisible();
+    let pages=Math.ceil(total/visible);
     let current=0;
 
-    // Build dots
-    for(let i=0;i<pages;i++){
-        const d=document.createElement('button');
-        d.className='gs-dot'+(i===0?' active':'');
-        d.addEventListener('click',()=>goTo(i));
-        dotsC.appendChild(d);
+    function buildDots(){
+        dotsC.innerHTML='';
+        pages=Math.ceil(total/getVisible());
+        for(let i=0;i<pages;i++){
+            const d=document.createElement('button');
+            d.className='gs-dot'+(i===0?' active':'');
+            d.addEventListener('click',()=>goTo(i));
+            dotsC.appendChild(d);
+        }
     }
-    const dots=dotsC.querySelectorAll('.gs-dot');
+    buildDots();
 
     function goTo(p){
-        current=p;
+        visible=getVisible();
+        pages=Math.ceil(total/visible);
+        current=p%pages;
         const w=slides[0].offsetWidth;
-        track.style.transform=`translateX(-${p*visible*w}px)`;
-        dots.forEach((d,i)=>d.classList.toggle('active',i===p));
+        track.style.transform='translateX(-'+(current*visible*w)+'px)';
+        dotsC.querySelectorAll('.gs-dot').forEach((d,i)=>d.classList.toggle('active',i===current));
     }
 
-    // Auto-rotate every 5s
-    let timer=setInterval(()=>goTo((current+1)%pages),5000);
+    let timer=setInterval(()=>goTo(current+1),5000);
     track.parentElement.addEventListener('mouseenter',()=>clearInterval(timer));
-    track.parentElement.addEventListener('mouseleave',()=>{timer=setInterval(()=>goTo((current+1)%pages),5000);});
-})();
+    track.parentElement.addEventListener('mouseleave',()=>{timer=setInterval(()=>goTo(current+1),5000);});
+    window.addEventListener('resize',()=>{buildDots();goTo(0);});
+}catch(e){console.warn('Gallery error:',e);}
 
-// Portfolio
+// Portfolio filter/sort
 const grid=document.getElementById('pfGrid');
 const cards=Array.from(grid.querySelectorAll('.pf-card'));
 const countEl=document.getElementById('pfCount');
@@ -439,7 +453,7 @@ function filterFromMetric(el){
     document.getElementById('portfolio').scrollIntoView({behavior:'smooth'});
     setTimeout(()=>{
         document.querySelectorAll('.pf-btn').forEach(b=>b.classList.remove('active'));
-        const mb=document.querySelector(`.pf-btn[data-filter="${type}"]`);
+        const mb=document.querySelector('.pf-btn[data-filter="'+type+'"]');
         if(mb)mb.classList.add('active');
         let c=0;
         cards.forEach(card=>{
@@ -449,3 +463,11 @@ function filterFromMetric(el){
             card.classList.toggle('highlighted',tm&&pm);
             if(tm)c++;
         });
+        countEl.textContent=c;
+        setTimeout(()=>cards.forEach(c=>c.classList.remove('highlighted')),3000);
+    },400);
+}
+
+</script>
+</body>
+</html>
