@@ -1,146 +1,451 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>Aakash Ahamed</title>	
-		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-		<script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" text ="javascript"></script>
-        <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" text="javascript"></script>
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aakash Ahamed — x + Δ</title>
+    <meta name="description" content="Geospatial scientist, assistant professor at Cal Poly SLO, co-founder of Working Trees.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:#060b14;--bg-card:#0d1420;
+            --text:#e2e8f0;--text-2:#94a3b8;--text-3:#64748b;
+            --green:#3b9c6f;--green-d:rgba(59,156,111,0.15);
+            --blue:#38bdf8;--blue-d:rgba(56,189,248,0.12);
+            --orange:#f59e42;--orange-d:rgba(245,158,66,0.12);
+            --purple:#c084fc;--purple-d:rgba(192,132,252,0.1);
+            --border:rgba(148,163,184,0.07);--border-h:rgba(148,163,184,0.15);
+            --serif:'DM Serif Display',Georgia,serif;
+            --sans:'Source Sans 3',sans-serif;
+            --mono:'IBM Plex Mono',monospace;
+        }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+        a{color:var(--green);text-decoration:none}
 
-        <style>
-			.social-icons {
-			    text-align: center;
-			}
-			.social-icons li {
-			    display:inline-block;
-			    list-style-type:none;
-			    -webkit-user-select:none;
-			    -moz-user-select:none;
-			}
-			.social-icons li a {
-			    border-bottom: none;
-			}
-			.social-icons li img {
-			    width:70px;
-			    height:70px;
-			    margin-right: 20px;
-			}
-		</style>
+        nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:.9rem 2.5rem;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(24px) saturate(1.4);-webkit-backdrop-filter:blur(24px) saturate(1.4);background:rgba(6,11,20,.7);border-bottom:1px solid var(--border);transition:padding .3s}
+        nav.scrolled{padding:.55rem 2.5rem}
+        .nav-logo{font-family:var(--mono);font-size:.82rem;font-weight:500;color:var(--green);letter-spacing:.06em;text-decoration:none}
+        .nav-links{display:flex;gap:2rem;list-style:none}
+        .nav-links a{font-family:var(--mono);font-size:.75rem;color:var(--text-2);text-decoration:none;letter-spacing:.04em;transition:color .3s}
+        .nav-links a:hover{color:var(--green)}
+        .hamburger{display:none;background:none;border:none;cursor:pointer;padding:4px}
+        .hamburger span{display:block;width:22px;height:2px;background:var(--text-2);margin:5px 0;transition:all .3s}
 
-    </head>
+        .hero{min-height:100vh;position:relative;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+        .hero-img-wrap{position:absolute;inset:0;z-index:0}
+        .hero-img-wrap img{width:100%;height:100%;object-fit:cover;filter:brightness(.42) saturate(.65)}
+        .hero-fade{position:absolute;bottom:0;left:0;right:0;height:55%;background:linear-gradient(to bottom,transparent,var(--bg));z-index:2}
+        .hero-content{position:relative;z-index:3;max-width:1000px;padding:0 3rem 5rem;margin:0 auto;width:100%}
+        .hero-eyebrow{font-family:var(--mono);font-size:.78rem;color:var(--green);letter-spacing:.14em;text-transform:uppercase;margin-bottom:1rem;opacity:0;animation:fadeUp .8s .2s forwards}
+        .hero-eq{font-family:var(--serif);font-size:clamp(3.2rem,9vw,7rem);line-height:1.05;margin-bottom:.6rem;opacity:0;animation:fadeUp .8s .4s forwards;font-style:italic}
+        .hero-eq .eq-x{color:var(--text)}
+        .hero-eq .eq-plus{color:var(--text-3);font-weight:300;font-size:.85em}
+        .hero-eq .eq-delta{color:var(--green);display:inline-block;animation:pulseD 3s ease-in-out infinite}
+        @keyframes pulseD{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.08);opacity:.8}}
+        .hero-name{font-family:var(--serif);font-size:clamp(1.6rem,3.5vw,2.3rem);color:var(--text);font-weight:400;margin-bottom:1.5rem;opacity:0;animation:fadeUp .8s .55s forwards}
+        .hero-sub{font-size:1.15rem;font-weight:300;color:var(--text-2);max-width:640px;line-height:1.8;margin-bottom:2rem;opacity:0;animation:fadeUp .8s .7s forwards}
+        .hero-chips{display:flex;flex-wrap:wrap;gap:.55rem;opacity:0;animation:fadeUp .8s .9s forwards}
+        .chip{font-family:var(--mono);font-size:.7rem;padding:.35rem .85rem;border-radius:100px;border:1px solid var(--green-d);color:var(--text-2);background:rgba(59,156,111,.04);letter-spacing:.02em}
+        .hero-cap{position:absolute;bottom:1rem;right:2.5rem;z-index:4;font-family:var(--mono);font-size:.62rem;color:var(--text-3);letter-spacing:.05em;opacity:.7}
 
+        .mq-wrap{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:.85rem 0;overflow:hidden}
+        .mq-track{display:flex;gap:2.5rem;animation:marquee 35s linear infinite;white-space:nowrap}
+        .mq-i{font-family:var(--mono);font-size:.68rem;color:var(--text-3);letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;gap:.45rem;flex-shrink:0}
+        .mq-i .dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 2.5s ease infinite}
 
+        .container{max-width:1100px;margin:0 auto;padding:0 2.5rem}
+        section{padding:6rem 0}
+        .sec-label{font-family:var(--mono);font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:var(--green);margin-bottom:.5rem}
+        .sec-title{font-family:var(--serif);font-size:clamp(2.4rem,5vw,3.6rem);line-height:1.15;margin-bottom:1rem}
+        .sec-intro{font-size:1.05rem;color:var(--text-2);max-width:660px;line-height:1.8;margin-bottom:3rem;font-weight:300}
 
+        .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+        .about-left p{color:var(--text-2);font-weight:300;font-size:1.02rem;margin-bottom:1.2rem}
+        .about-left a{border-bottom:1px solid rgba(59,156,111,.3);transition:border-color .3s}
+        .about-left a:hover{border-color:var(--green)}
+        .about-right{display:flex;flex-direction:column;gap:1.5rem}
+        .pc{border-radius:14px;overflow:hidden;position:relative;border:1px solid var(--border)}
+        .pc img{width:100%;display:block}
+        .pc .cap{position:absolute;bottom:0;left:0;right:0;padding:.8rem 1rem;background:linear-gradient(to top,rgba(6,11,20,.9),transparent);font-family:var(--mono);font-size:.65rem;color:var(--text-3);letter-spacing:.04em}
+        .tl{margin-top:2.5rem;border-left:2px solid var(--green-d);padding-left:1.8rem}
+        .tl-i{position:relative;margin-bottom:1.3rem}
+        .tl-i::before{content:'';position:absolute;left:-2.18rem;top:.5rem;width:9px;height:9px;border-radius:50%;background:var(--green);border:2px solid var(--bg)}
+        .tl-y{font-family:var(--mono);font-size:.7rem;color:var(--green);letter-spacing:.04em}
+        .tl-r{font-weight:600;font-size:.92rem;margin-top:.05rem}
+        .tl-o{font-size:.85rem;color:var(--text-2);font-weight:300}
+
+        /* ROTATING GALLERY */
+        .gs-wrap{border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+        .gs{display:flex;transition:transform .8s cubic-bezier(.4,0,.2,1);width:max-content}
+        .gs-i{position:relative;overflow:hidden;width:calc(100vw / 3);aspect-ratio:16/10;flex-shrink:0}
+        .gs-i img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+        .gs-i:hover img{transform:scale(1.05)}
+        .gs-i .gs-l{position:absolute;bottom:.8rem;left:.8rem;font-family:var(--mono);font-size:.62rem;color:rgba(255,255,255,.7);background:rgba(6,11,20,.75);padding:.2rem .5rem;border-radius:4px;backdrop-filter:blur(6px);letter-spacing:.04em}
+        .gs-nav{position:absolute;top:50%;right:1.2rem;transform:translateY(-50%);z-index:5;display:flex;gap:.4rem}
+        .gs-dot{width:8px;height:8px;border-radius:50%;border:1px solid rgba(255,255,255,.4);background:transparent;cursor:pointer;transition:all .3s;padding:0}
+        .gs-dot.active{background:var(--green);border-color:var(--green)}
+
+        .rcard{background:var(--bg-card);border:1px solid var(--border);border-radius:18px;overflow:hidden;margin-bottom:2rem;transition:border-color .4s,transform .4s}
+        .rcard:hover{border-color:var(--border-h);transform:translateY(-3px)}
+        .rcard-head{display:grid;grid-template-columns:340px 1fr;min-height:240px}
+        .rcard-vis{position:relative;overflow:hidden;background:#0a1020;display:flex;align-items:center;justify-content:center}
+        .rcard-vis img{width:100%;height:100%;object-fit:cover}
+        .rcard-info{padding:1.8rem 2.2rem;display:flex;flex-direction:column;justify-content:center}
+        .rcard-span{font-family:var(--mono);font-size:.7rem;color:var(--green);letter-spacing:.05em;margin-bottom:.35rem}
+        .rcard-title{font-family:var(--serif);font-size:1.45rem;margin-bottom:.6rem;line-height:1.3}
+        .rcard-desc{color:var(--text-2);font-size:.9rem;font-weight:300;line-height:1.75;margin-bottom:1.1rem}
+        .rcard-desc a{border-bottom:1px solid rgba(59,156,111,.3)}.rcard-desc a:hover{border-color:var(--green)}
+        .rcard-metrics{display:flex;gap:1.5rem;padding-top:.9rem;border-top:1px solid var(--border)}
+        .rm{display:flex;flex-direction:column;gap:.1rem;cursor:pointer;padding:.3rem .5rem;margin:-.3rem -.5rem;border-radius:8px;transition:background .25s}
+        .rm:hover{background:rgba(59,156,111,.08)}
+        .rm-n{font-family:var(--mono);font-size:1.2rem;font-weight:500;color:var(--green);line-height:1}
+        .rm-l{font-family:var(--mono);font-size:.6rem;color:var(--text-3);letter-spacing:.04em;text-transform:uppercase}
+        .rcard-logo{margin-top:1rem}
+        .rcard-logo img{max-width:130px;height:auto;opacity:.8;transition:opacity .3s}
+        .rcard-logo img:hover{opacity:1}
+
+        .pf-controls{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-bottom:1.2rem}
+        .pf-filters{display:flex;gap:.4rem;flex-wrap:wrap}
+        .pf-btn{font-family:var(--mono);font-size:.72rem;padding:.4rem .9rem;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--text-2);cursor:pointer;transition:all .25s;letter-spacing:.03em}
+        .pf-btn:hover{border-color:var(--green);color:var(--green)}
+        .pf-btn.active{background:var(--green-d);border-color:var(--green);color:var(--green)}
+        .pf-sort{display:flex;align-items:center;gap:.4rem}
+        .pf-sort-label{font-family:var(--mono);font-size:.65rem;color:var(--text-3);letter-spacing:.04em}
+        .pf-sort-btn{font-family:var(--mono);font-size:.68rem;padding:.3rem .65rem;border-radius:5px;border:1px solid transparent;background:transparent;color:var(--text-3);cursor:pointer;transition:all .25s}
+        .pf-sort-btn:hover{color:var(--text-2)}
+        .pf-sort-btn.active{color:var(--text);border-color:var(--border)}
+        .pf-count{font-family:var(--mono);font-size:.68rem;color:var(--text-3);margin-bottom:1rem;letter-spacing:.03em}
+        .pf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.8rem}
+        .pf-card{display:flex;flex-direction:column;padding:1.2rem 1.4rem;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:all .3s;cursor:pointer}
+        .pf-card:hover{border-color:var(--green);transform:translateY(-2px);background:rgba(59,156,111,.03)}
+        .pf-card.hidden{display:none}
+        .pf-card.highlighted{border-color:var(--green);box-shadow:0 0 0 1px var(--green),0 4px 20px rgba(59,156,111,.15);background:rgba(59,156,111,.05)}
+        .pfc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.65rem}
+        .pfc-type{font-family:var(--mono);font-size:.58rem;letter-spacing:.06em;text-transform:uppercase;padding:.18rem .55rem;border-radius:4px}
+        .pfc-type.pub{color:var(--blue);background:var(--blue-d)}
+        .pfc-type.tool{color:var(--green);background:var(--green-d)}
+        .pfc-type.pat{color:var(--orange);background:var(--orange-d)}
+        .pfc-type.med{color:var(--purple);background:var(--purple-d)}
+        .pfc-year{font-family:var(--mono);font-size:.68rem;color:var(--text-3)}
+        .pfc-title{font-size:.9rem;font-weight:500;color:var(--text);line-height:1.4;margin-bottom:.5rem}
+        .pfc-tag{font-family:var(--mono);font-size:.62rem;color:var(--text-3);letter-spacing:.03em}
+
+        .recog-list{display:flex;flex-direction:column}.recog-item{display:grid;grid-template-columns:110px 1fr;gap:1.5rem;padding:1.1rem 0;border-bottom:1px solid var(--border);align-items:baseline}.recog-item:first-child{border-top:1px solid var(--border)}.recog-item:hover{background:rgba(255,255,255,.01)}.ri-date{font-family:var(--mono);font-size:.72rem;color:var(--green);letter-spacing:.03em;white-space:nowrap}.ri-name{font-weight:600;font-size:.92rem;line-height:1.35}.ri-org{font-size:.83rem;color:var(--text-2);font-weight:300;margin-top:.1rem}.ri-type{display:inline-block;font-family:var(--mono);font-size:.58rem;letter-spacing:.06em;text-transform:uppercase;padding:.15rem .5rem;border-radius:4px;margin-bottom:.3rem}.ri-type.award{color:var(--orange);background:var(--orange-d)}.ri-type.media{color:var(--blue);background:var(--blue-d)}.ri-link{color:var(--text-2);font-size:.82rem;font-weight:300;border-bottom:1px solid rgba(148,163,184,.15);transition:color .3s,border-color .3s}.ri-link:hover{color:var(--green);border-color:var(--green)}
+
+        .cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.9rem}
+        .cl{display:flex;align-items:center;gap:.7rem;padding:1.1rem 1.3rem;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);transition:all .3s;font-size:.88rem}
+        .cl:hover{border-color:var(--green);transform:translateY(-2px)}
+        .cl svg{width:18px;height:18px;fill:var(--green);flex-shrink:0}
+
+        footer{padding:3rem 2.5rem;border-top:1px solid var(--border);text-align:center}
+        footer p{font-family:var(--mono);font-size:.7rem;color:var(--text-3);letter-spacing:.04em}
+        footer .co{color:var(--green)}
+
+        @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+        @keyframes blink{0%,100%{opacity:.35}50%{opacity:1}}
+        .fi{opacity:0;transform:translateY(30px);transition:opacity .7s,transform .7s}.fi.vis{opacity:1;transform:translateY(0)}
+
+        @media(max-width:920px){.about-grid{grid-template-columns:1fr}.rcard-head{grid-template-columns:1fr}.rcard-vis{min-height:200px}.gs-i{width:50vw}.recog-item{grid-template-columns:90px 1fr;gap:1rem}}
+        @media(max-width:600px){nav{padding:.7rem 1.2rem}.nav-links{display:none}.nav-links.open{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:rgba(6,11,20,.97);padding:1rem 1.5rem;gap:.9rem;border-bottom:1px solid var(--border)}.hamburger{display:block}.hero-content{padding:0 1.5rem 3.5rem}.container{padding:0 1.2rem}section{padding:4rem 0}.cg{grid-template-columns:1fr 1fr}.gs-i{width:100vw}.pf-grid{grid-template-columns:1fr}.pf-controls{flex-direction:column;align-items:flex-start}.recog-item{grid-template-columns:1fr;gap:.2rem}.hero-eq{font-size:clamp(2.8rem,12vw,5rem)}.rcard-metrics{flex-wrap:wrap;gap:1rem}}
+    </style>
+</head>
 <body>
-	<div class="container">
-	      <!-- Static navbar -->
-	      <nav class="navbar navbar-default">
-	        <div class="container-fluid">
-	          <div class="navbar-header">
-	            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-	              <span class="sr-only">Toggle navigation</span>
-	              <span class="icon-bar"></span>
-	              <span class="icon-bar"></span>
-	              <span class="icon-bar"></span>
-	            </button>
-	           	<a href="/" class="pull-left"><img src="http://numb3rs.wolfram.com/418/images/HyperbolicTessellation.gif" width="45" height="45" hspace = "10"> </a>
-	            <a class="navbar-brand" href="/">Aakash Ahamed</a>
-	          </div>
-	          <div id="navbar" class="navbar-collapse collapse">
-	            <ul class="nav navbar-nav">
-	              <li class="active"><a href="/">Home</a></li>
-	              <li><a href="/about.html">About</a></li>
-	              <li><a href="/cv.html">CV</a></li>
-	              <li><a href="/research.html">Research</a></li>
-	              <li><a href="/contact.html">Contact</a></li>
-	              </li>
-	            </ul>
-	          </div><!--/.nav-collapse -->
-	        </div><!--/.container-fluid -->
-	      </nav>
-	<div class="container-fluid", style="height:100%;">
 
-            <div class = "row", style="height:100%;">
+<nav id="nav">
+    <a href="#" class="nav-logo">// ahamed.geo</a>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="#about">about</a></li>
+        <li><a href="#research">research</a></li>
+        <li><a href="#portfolio">portfolio</a></li>
+        <li><a href="#recognition">recognition</a></li>
+        <li><a href="#connect">connect</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+</nav>
 
-                <div class = "col-md-8 col-md-offset-2", style="height:100%;"> 
-                <center><img src = "/hello.png" style="height:75px"></img></center></br>
-                    <div class = "well", style="height:100%;">
+<header class="hero">
+    <div class="hero-img-wrap"><img src="images/ofr.jpg" alt="Drone orthomosaic" loading="eager"></div>
+    <div class="hero-fade"></div>
+    <div class="hero-content">
+        <div class="hero-eyebrow">Geospatial Scientist &middot; Educator &middot; Entrepreneur</div>
+        <div class="hero-eq"><span class="eq-x">x</span> <span class="eq-plus">+</span> <span class="eq-delta">&Delta;</span></div>
+        <div class="hero-name">Aakash Ahamed</div>
+        <p class="hero-sub">My goal is to be a force multiplier (<em style="color:var(--text);font-style:normal;font-weight:500">x</em>) for positive (<em style="color:var(--text);font-style:normal;font-weight:500">+</em>) change (<em style="color:var(--green);font-style:normal;font-weight:500">&Delta;</em>). I leverage sensors on phones, drones, planes, and satellites to measure Earth&rsquo;s water, forests, and changing landscapes. Chief Scientist at <a href="https://workingtrees.com" target="_blank" style="color:var(--green)">Working Trees</a>. Assistant Professor at <a href="https://nres.calpoly.edu/dr-aakash-ahamed" target="_blank" style="color:var(--green)">Cal&nbsp;Poly&nbsp;SLO</a>.</p>
+        <div class="hero-chips"><span class="chip">remote sensing</span><span class="chip">hydrology</span><span class="chip">agroforestry</span><span class="chip">photogrammetry</span><span class="chip">machine learning</span><span class="chip">drone mapping</span></div>
+    </div>
+    <div class="hero-cap">3-D orthomosaic &middot; Oso Flaco, CA &middot; DJI Mavic 2 Enterprise</div>
+</header>
 
-                    	 My name is Aakash Ahamed. I am a physical scientist, <a href = "http://www.nasa.gov/feature/goddard/2016/using-nasa-data-to-detect-potential-landslides" > remote sensing researcher</a>, and software developer at NASA's Goddard Space Flight Center, just north of Washington DC. While you're here, feel free to check out some of my <a href = "/research.html">research projects </a>or learn about my <a href = "/about.html">background</a>. Want to get in touch? Use the links below or shoot me an <a href = "/contact.html">email</a>. Thanks for stopping by!
+<div class="mq-wrap"><div class="mq-track">
+    <span class="mq-i"><span class="dot"></span>GRACE / GRACE-FO</span><span class="mq-i"><span class="dot"></span>Landsat 8/9</span><span class="mq-i"><span class="dot"></span>Sentinel-2</span><span class="mq-i"><span class="dot"></span>MODIS</span><span class="mq-i"><span class="dot"></span>SWOT</span><span class="mq-i"><span class="dot"></span>DJI Mavic Enterprise</span><span class="mq-i"><span class="dot"></span>FLIR Thermal</span><span class="mq-i"><span class="dot"></span>SMAP</span><span class="mq-i"><span class="dot"></span>LiDAR</span><span class="mq-i"><span class="dot"></span>iPhone Photogrammetry</span><span class="mq-i"><span class="dot"></span>SNODAS</span><span class="mq-i"><span class="dot"></span>InSAR</span>
+    <span class="mq-i"><span class="dot"></span>GRACE / GRACE-FO</span><span class="mq-i"><span class="dot"></span>Landsat 8/9</span><span class="mq-i"><span class="dot"></span>Sentinel-2</span><span class="mq-i"><span class="dot"></span>MODIS</span><span class="mq-i"><span class="dot"></span>SWOT</span><span class="mq-i"><span class="dot"></span>DJI Mavic Enterprise</span><span class="mq-i"><span class="dot"></span>FLIR Thermal</span><span class="mq-i"><span class="dot"></span>SMAP</span><span class="mq-i"><span class="dot"></span>LiDAR</span><span class="mq-i"><span class="dot"></span>iPhone Photogrammetry</span><span class="mq-i"><span class="dot"></span>SNODAS</span><span class="mq-i"><span class="dot"></span>InSAR</span>
+</div></div>
 
-					</div>
-
-				</div>
-
-			</div>
-
-
-            	<div class = "col-md-4", style = "height:100%;">
-
-            		<div class = "well", style = "height:100%">
-
-            				<center><a><img src="/pic1.jpg" style ="width:100% ; height:100%; max-width:500px; max-height:500px" alt=""></a>
-            				</center><br> 
-
-            		</div>
-
-            	</div>
-
-            	<div class = "col-md-4", style = "height:100%;">
-
-            		<div class = "well", style = "height:100%">
-
-            				<center><a><img src="/pic2.jpg" style ="width:100% ; height:100%; max-width:500px; max-height:500px" alt=""></a>
-            				</center><br> 
-
-            		</div>
-
-            	</div>
-
-            	<div class = "col-md-4", style = "height:100%;">
-
-            		<div class = "well", style = "height:100%">
-
-            				<center><a><img src="/pic3.jpg" style ="width:100% ; height:100%; max-width:500px; max-height:500px" alt=""></a>
-            				</center><br> 
-
-            		</div>
-
-            	</div>
+<section id="about"><div class="container">
+    <div class="sec-label">01 / About</div>
+    <h2 class="sec-title">Sensors, Science, Solutions</h2>
+    <div class="about-grid">
+        <div class="about-left fi">
+            <p>I&rsquo;m a geospatial scientist driven by one equation: <strong style="color:var(--green);font-family:var(--mono);font-size:.92em">x + &Delta;</strong> &mdash; be a force multiplier for positive change. My work sits at the intersection of remote sensing, environmental science, and technology, using data from instruments across every spatial and temporal scale to understand how water, forests, and landscapes are changing.</p>
+            <p>I hold a PhD in Geophysics from <a href="https://earth.stanford.edu/" target="_blank">Stanford University</a>, where my dissertation was recognized as the 2023 Exceptional PhD Thesis. My career has spanned <a href="https://www.nasa.gov/" target="_blank">NASA</a>, the <a href="https://www.worldwildlife.org/" target="_blank">World Wildlife Fund</a>, a precision agriculture startup, and co-founding <a href="https://workingtrees.com" target="_blank">Working Trees</a>. I now bring all of this to the classroom at <a href="https://nres.calpoly.edu/dr-aakash-ahamed" target="_blank">Cal&nbsp;Poly&nbsp;SLO</a>, where I&rsquo;m building a next-generation geospatial science program.</p>
+            <div class="tl">
+                <div class="tl-i"><div class="tl-y">2024 &ndash; present</div><div class="tl-r">Assistant Professor of Geospatial Sciences</div><div class="tl-o">Cal Poly San Luis Obispo</div></div>
+                <div class="tl-i"><div class="tl-y">2021 &ndash; present</div><div class="tl-r">Co-Founder &amp; Chief Scientist</div><div class="tl-o">Working Trees Inc.</div></div>
+                <div class="tl-i"><div class="tl-y">2017 &ndash; 2022</div><div class="tl-r">PhD in Geophysics</div><div class="tl-o">Stanford University</div></div>
+                <div class="tl-i"><div class="tl-y">2015 &ndash; 2018</div><div class="tl-r">Research Support Scientist</div><div class="tl-o">NASA Goddard Space Flight Center</div></div>
+                <div class="tl-i"><div class="tl-y">2014 &ndash; 2015</div><div class="tl-r">GIS Research Analyst</div><div class="tl-o">World Wildlife Fund</div></div>
+                <div class="tl-i"><div class="tl-y">2012 &ndash; 2014</div><div class="tl-r">M.Sc. in Earth &amp; Environmental Sciences</div><div class="tl-o">Boston College</div></div>
+                <div class="tl-i"><div class="tl-y">2008 &ndash; 2012</div><div class="tl-r">B.S. Geosciences (Honors) &amp; B.A. Government</div><div class="tl-o">Franklin &amp; Marshall College</div></div>
             </div>
+        </div>
+        <div class="about-right fi">
+            <div class="pc"><img src="images/thermal_new.jpg" alt="FLIR thermal imaging" loading="lazy"><div class="cap">FLIR thermal sensor &middot; Spot 27.2 &deg;C &middot; Rel.H 36%</div></div>
+            <div class="pc"><img src="images/kanab_thermal.jpg" alt="Kanab River thermal" loading="lazy"><div class="cap">Kanab River &middot; Thermal drone orthomosaic &middot; FLIR</div></div>
+        </div>
+    </div>
+</div></section>
 
+<!-- ROTATING GALLERY -->
+<div class="gs-wrap">
+    <div class="gs" id="gsTrack">
+        <div class="gs-i" data-slide="0"><img src="images/valley_gods.jpg" alt="Valley of the Gods &middot; Utah" loading="lazy"><div class="gs-l">Valley of the Gods &middot; Utah</div></div>
+<div class="gs-i" data-slide="1"><img src="images/patagonia.jpg" alt="Glacial lake &middot; Patagonia" loading="lazy"><div class="gs-l">Glacial lake &middot; Patagonia</div></div>
+<div class="gs-i" data-slide="2"><img src="images/dji_field.jpg" alt="Drone field campaign &middot; Cal Poly SLO" loading="lazy"><div class="gs-l">Drone field campaign &middot; Cal Poly SLO</div></div>
+<div class="gs-i" data-slide="3"><img src="images/dji_river.jpg" alt="Aerial survey &middot; Central California" loading="lazy"><div class="gs-l">Aerial survey &middot; Central California</div></div>
+<div class="gs-i" data-slide="4"><img src="images/img_5521.jpg" alt="SNOTEL station &middot; Sierra Nevada" loading="lazy"><div class="gs-l">SNOTEL station &middot; Sierra Nevada</div></div>
+<div class="gs-i" data-slide="5"><img src="images/img_3105.jpg" alt="Bristlecone pine &middot; White Mountains" loading="lazy"><div class="gs-l">Bristlecone pine &middot; White Mountains</div></div>
+<div class="gs-i" data-slide="6"><img src="images/action_figure.jpg" alt="Remote Sensing Scientist &middot; Action Figure Edition" loading="lazy"><div class="gs-l">Remote Sensing Scientist &middot; Action Figure Edition</div></div>
 
-	<div class = "container-fluid", style = "height:100%">
-		<ul class="social-icons">
-			<li>
-				<a href="https://www.linkedin.com/in/aakash-ahamed-24479140" target='blank'>
-					<img src="http://axiomlearningsolutions.com/wp-content/uploads/2015/07/LinkedIn-button.jpg" alt="Linkedin" />
-				</a>
-			</li>
-			<li>
-				<a href="https://github.com/kashingtondc" target='blank'>
-					<img src="http://image.flaticon.com/icons/svg/25/25231.svg" alt="Github" />
-				</a>
-			</li>
-			<li>
-				<a href="https://www.instagram.com/kashingtondc/" target='blank'>
-					<img src="http://charliehoehn.com/wp-content/uploads/2012/11/instagram-app-icon-250x250.jpg" alt="Instagram" />
-				</a>
-			</li>
-			<li>
-				<a href="https://www.facebook.com/akosh.bgosh" target='blank'>
-					<img src="https://www.facebook.com/images/fb_icon_325x325.png" alt="Facebook" />
-				</a>
-			</li>
-		</ul>
-	</div>
-	<script> // google analytics 
-	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    </div>
+    <div class="gs-nav" id="gsDots"></div>
+</div>
 
-	  ga('create', 'UA-73210905-1', 'auto');
-	  ga('send', 'pageview');
-	</script>
-</body>
+<section id="research"><div class="container">
+    <div class="sec-label">02 / Research</div>
+    <h2 class="sec-title">Research</h2>
+    <p class="sec-intro">Three core research programs spanning water, forests, and natural hazards &mdash; each powered by satellite and drone-based sensing.</p>
+
+    <div class="rcard fi">
+        <div class="rcard-head">
+            <div class="rcard-vis"><img src="images/gw_method.jpg" alt="CA groundwater" loading="lazy" style="object-fit:cover;object-position:center 20%"></div>
+            <div class="rcard-info">
+                <div class="rcard-span">2017 &ndash; present</div>
+                <h3 class="rcard-title">California Groundwater</h3>
+                <p class="rcard-desc">Using satellite remote sensing (GRACE, Landsat, MODIS) in a mass balance approach to estimate groundwater storage changes across California at scales from ~1,000 to 100,000+ km&sup2;. This work produced the first statewide high-resolution groundwater dataset validated against well measurements, GRACE gravity data, and regional flow models. A parallel analysis combined remotely sensed rainfall and snowmelt with streamflow data to identify source areas in the Sierra Nevada that most strongly influence downstream baseflow &mdash; finding that mid-elevation snowmelt (3,000&ndash;3,700 m) has the greatest impact. 2023 Exceptional PhD Thesis at Stanford.</p>
+                <div class="rcard-metrics">
+                    <div class="rm" data-filter-type="publication" data-filter-project="groundwater" onclick="filterFromMetric(this)"><span class="rm-n">4</span><span class="rm-l">Publications</span></div>
+                    <div class="rm" data-filter-type="media" data-filter-project="groundwater" onclick="filterFromMetric(this)"><span class="rm-n">4</span><span class="rm-l">Media Features</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="rcard fi">
+        <div class="rcard-head">
+            <div class="rcard-vis"><img src="images/planting_dash.jpg" alt="Working Trees planting dashboard" loading="lazy"></div>
+            <div class="rcard-info">
+                <div class="rcard-span">2021 &ndash; present</div>
+                <h3 class="rcard-title">Biomass Remote Sensing</h3>
+                <p class="rcard-desc">Developing low-cost methods to measure tree growth and carbon sequestration using phone photogrammetry, drones, and satellite imagery. Applied through <a href="https://workingtrees.com" target="_blank">Working Trees</a> across 2,000+ hectares in Brazil.</p>
+                <div class="rcard-metrics">
+                    <div class="rm" data-filter-type="publication" data-filter-project="biomass" onclick="filterFromMetric(this)"><span class="rm-n">1</span><span class="rm-l">Publication</span></div>
+                    <div class="rm" data-filter-type="tool" data-filter-project="biomass" onclick="filterFromMetric(this)"><span class="rm-n">3</span><span class="rm-l">Tools</span></div>
+                    <div class="rm" style="cursor:default;pointer-events:none"><span class="rm-n">2K+</span><span class="rm-l">Hectares</span></div>
+                </div>
+                <div class="rcard-logo"><img src="images/wt_logo.png" alt="Working Trees"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="rcard fi">
+        <div class="rcard-head">
+            <div class="rcard-vis"><img src="images/slip.jpg" alt="SLIP landslide detection" loading="lazy" style="object-fit:contain;background:#111825;padding:.4rem"></div>
+            <div class="rcard-info">
+                <div class="rcard-span">2015 &ndash; 2019</div>
+                <h3 class="rcard-title">Satellite Disaster Monitoring</h3>
+                <p class="rcard-desc">At NASA Goddard, built automated satellite-based monitoring systems for floods and landslides across Southeast Asia and Nepal. The DRIP-SLIP landslide detection algorithm became a patented NASA software product.</p>
+                <div class="rcard-metrics">
+                    <div class="rm" data-filter-type="publication" data-filter-project="disasters" onclick="filterFromMetric(this)"><span class="rm-n">3</span><span class="rm-l">Publications</span></div>
+                    <div class="rm" data-filter-type="patent" data-filter-project="disasters" onclick="filterFromMetric(this)"><span class="rm-n">1</span><span class="rm-l">NASA Patent</span></div>
+                    <div class="rm" data-filter-type="media" data-filter-project="disasters" onclick="filterFromMetric(this)"><span class="rm-n">3</span><span class="rm-l">Media Features</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div></section>
+
+<section id="portfolio"><div class="container">
+    <div class="sec-label">03 / Portfolio</div>
+    <h2 class="sec-title">Portfolio</h2>
+    <div class="pf-controls">
+        <div class="pf-filters">
+            <button class="pf-btn active" data-filter="all">All</button>
+            <button class="pf-btn" data-filter="publication">Publications</button>
+            <button class="pf-btn" data-filter="tool">Tools</button>
+            <button class="pf-btn" data-filter="patent">Patents</button>
+            <button class="pf-btn" data-filter="media">Media</button>
+        </div>
+        <div class="pf-sort"><span class="pf-sort-label">Sort:</span><button class="pf-sort-btn active" data-sort="date">Date</button><button class="pf-sort-btn" data-sort="project">Project</button></div>
+    </div>
+    <div class="pf-count"><span id="pfCount">20</span> items</div>
+    <div class="pf-grid" id="pfGrid">
+        <a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/hyp.70322" target="_blank" class="pf-card" data-type="publication" data-project="groundwater" data-year="2025"><div class="pfc-top"><span class="pfc-type pub">Publication</span><span class="pfc-year">2025</span></div><div class="pfc-title">Hydrological Processes &mdash; Groundwater Storage</div><div class="pfc-tag">California Groundwater</div></a>
+        <a href="https://www.mdpi.com/2072-4292/15/8/2100" target="_blank" class="pf-card" data-type="publication" data-project="groundwater" data-year="2023"><div class="pfc-top"><span class="pfc-type pub">Publication</span><span class="pfc-year">2023</span></div><div class="pfc-title">Remote Sensing &mdash; Central Valley GW Downscaling</div><div class="pfc-tag">California Groundwater</div></a>
+        <a href="https://www.mdpi.com/1999-4907/14/10/2027" target="_blank" class="pf-card" data-type="publication" data-project="biomass" data-year="2023"><div class="pfc-top"><span class="pfc-type pub">Publication</span><span class="pfc-year">2023</span></div><div class="pfc-title">Forests &mdash; Tree Diameter via Phone Photogrammetry</div><div class="pfc-tag">Biomass Remote Sensing</div></a>
+        <a href="https://stacks.stanford.edu/file/vd768dm1610/Ahamed_Thesis_FMT_FIN-augmented.pdf" target="_blank" class="pf-card" data-type="publication" data-project="groundwater" data-year="2022"><div class="pfc-top"><span class="pfc-type pub">Publication</span><span class="pfc-year">2022</span></div><div class="pfc-title">PhD Thesis &mdash; Remote Sensing of Groundwater in California</div><div class="pfc-tag">California Groundwater</div></a>
+        <a href="https://www.sciencedirect.com/science/article/pii/S0048969721057132" target="_blank" class="pf-card" data-type="publication" data-project="groundwater" data-year="2021"><div class="pfc-top"><span class="pfc-type pub">Publication</span><span class="pfc-year">2021</span></div><div class="pfc-title">Sci. Total Environ. &mdash; Statewide GW Storage Change</div><div class="pfc-tag">California Groundwater</div></a>
+        <a href="https://journals.ametsoc.org/view/journals/eint/23/3/ei-d-17-0022.1.xml" target="_blank" class="pf-card" data-type="publication" data-project="disasters" data-year="2019"><div class="pfc-top"><span class="pfc-type pub">Publication</span><span class="pfc-year">2019</span></div><div class="pfc-title">Earth Interactions &mdash; Landslide Detection Algorithm</div><div class="pfc-tag">Disaster Monitoring</div></a>
+        <a href="https://www.mdpi.com/2306-5338/5/2/23" target="_blank" class="pf-card" data-type="publication" data-project="disasters" data-year="2018"><div class="pfc-top"><span class="pfc-type pub">Publication</span><span class="pfc-year">2018</span></div><div class="pfc-title">Hydrology &mdash; Socioeconomic Impact of Mekong Flood Detection</div><div class="pfc-tag">Disaster Monitoring</div></a>
+        <a href="https://www.sciencedirect.com/science/article/abs/pii/S0303243417301095" target="_blank" class="pf-card" data-type="publication" data-project="disasters" data-year="2017"><div class="pfc-top"><span class="pfc-type pub">Publication</span><span class="pfc-year">2017</span></div><div class="pfc-title">J. Applied Geography &mdash; MODIS Flood Monitoring</div><div class="pfc-tag">Disaster Monitoring</div></a>
+        <a href="https://nres.calpoly.edu/working-lands" target="_blank" class="pf-card" data-type="tool" data-project="tools" data-year="2025"><div class="pfc-top"><span class="pfc-type tool">Tool</span><span class="pfc-year">2025</span></div><div class="pfc-title">Cal Poly Working Lands Dashboard &amp; Documentation</div><div class="pfc-tag">Cal Poly</div></a>
+        <a href="https://apps.apple.com/us/app/working-trees-app/id6737707238" target="_blank" class="pf-card" data-type="tool" data-project="biomass" data-year="2024"><div class="pfc-top"><span class="pfc-type tool">Tool</span><span class="pfc-year">2024</span></div><div class="pfc-title">Working Trees Mobile App &mdash; iOS</div><div class="pfc-tag">Biomass Remote Sensing</div></a>
+        <a href="https://felt.com/map/All-Tree-Registrations-External-wMOGKBkSTxajd0SI4uEXOB" target="_blank" class="pf-card" data-type="tool" data-project="biomass" data-year="2023"><div class="pfc-top"><span class="pfc-type tool">Tool</span><span class="pfc-year">2023</span></div><div class="pfc-title">Tree Planting Dashboard &mdash; Felt Map</div><div class="pfc-tag">Biomass Remote Sensing</div></a>
+        <a href="https://workingtrees.com" target="_blank" class="pf-card" data-type="tool" data-project="biomass" data-year="2021"><div class="pfc-top"><span class="pfc-type tool">Tool</span><span class="pfc-year">2021</span></div><div class="pfc-title">Working Trees &mdash; Silvopasture Platform</div><div class="pfc-tag">Biomass Remote Sensing</div></a>
+        <a href="https://py4wrds.com" target="_blank" class="pf-card" data-type="tool" data-project="tools" data-year="2020"><div class="pfc-top"><span class="pfc-type tool">Tool</span><span class="pfc-year">2020</span></div><div class="pfc-title">py4wrds &mdash; Python for Water Resources Data Science</div><div class="pfc-tag">Open-Source Course</div></a>
+        <a href="https://docs.google.com/document/d/1sJUsGqfM-le45ZQSXb2bzMQYs-Av3KOQjwuVcgDYtqw/edit" target="_blank" class="pf-card" data-type="tool" data-project="tools" data-year="2020"><div class="pfc-top"><span class="pfc-type tool">Tool</span><span class="pfc-year">2020</span></div><div class="pfc-title">The Drone Mapping Cookbook &mdash; Nat Geo Explorer</div><div class="pfc-tag">Open-Source Guide</div></a>
+        <a href="https://software.nasa.gov/software/LAR-18789-1" target="_blank" class="pf-card" data-type="patent" data-project="disasters" data-year="2015"><div class="pfc-top"><span class="pfc-type pat">Patent</span><span class="pfc-year">2015</span></div><div class="pfc-title">NASA DRIP-SLIP &mdash; Landslide Detection (LAR-18789)</div><div class="pfc-tag">Disaster Monitoring</div></a>
+        <a href="https://www.latimes.com/science/story/2022-12-14/why-nasas-new-mission-will-study-earths-water-from-space" target="_blank" class="pf-card" data-type="media" data-project="groundwater" data-year="2022"><div class="pfc-top"><span class="pfc-type med">Media</span><span class="pfc-year">2022</span></div><div class="pfc-title">LA Times &mdash; NASA&rsquo;s new mission to study Earth&rsquo;s water</div><div class="pfc-tag">California Groundwater</div></a>
+        <a href="https://www.newscientist.com/article/2343617-california-has-lost-more-groundwater-than-held-in-all-its-reservoirs/" target="_blank" class="pf-card" data-type="media" data-project="groundwater" data-year="2022"><div class="pfc-top"><span class="pfc-type med">Media</span><span class="pfc-year">2022</span></div><div class="pfc-title">New Scientist &mdash; California groundwater losses</div><div class="pfc-tag">California Groundwater</div></a>
+        <a href="https://www.nasa.gov/feature/goddard/2018/scientists-deploy-damage-assessment-tool-in-laos-relief-efforts" target="_blank" class="pf-card" data-type="media" data-project="disasters" data-year="2018"><div class="pfc-top"><span class="pfc-type med">Media</span><span class="pfc-year">2018</span></div><div class="pfc-title">NASA.gov &mdash; Laos relief damage assessment</div><div class="pfc-tag">Disaster Monitoring</div></a>
+        <a href="https://www.nasa.gov/feature/goddard/2016/using-nasa-data-to-detect-potential-landslides/" target="_blank" class="pf-card" data-type="media" data-project="disasters" data-year="2016"><div class="pfc-top"><span class="pfc-type med">Media</span><span class="pfc-year">2016</span></div><div class="pfc-title">NASA.gov &mdash; Using NASA data to detect landslides</div><div class="pfc-tag">Disaster Monitoring</div></a>
+        <a href="https://www.fastcompany.com/3031162/citizen-air-quality-sensors-cover-the-places-governments-cant-reach" target="_blank" class="pf-card" data-type="media" data-project="tools" data-year="2014"><div class="pfc-top"><span class="pfc-type med">Media</span><span class="pfc-year">2014</span></div><div class="pfc-title">Fast Company &mdash; Citizen air quality sensors</div><div class="pfc-tag">Early Career</div></a>
+    </div>
+</div></section>
+
+<section id="recognition"><div class="container">
+    <div class="sec-label">04 / Recognition</div>
+    <h2 class="sec-title">Awards &amp; Media</h2>
+    <p class="sec-intro">Selected awards, honors, and press coverage.</p>
+    <div class="recog-list fi">
+        <div class="recog-item"><div class="ri-date">2023</div><div class="ri-body"><span class="ri-type award">Award</span><div class="ri-name">Exceptional PhD Thesis Award</div><div class="ri-org">Stanford Geophysics &mdash; awarded once annually</div></div></div>
+        <div class="recog-item"><div class="ri-date">Dec 2022</div><div class="ri-body"><span class="ri-type media">Media</span><div class="ri-name"><a href="https://www.latimes.com/science/story/2022-12-14/why-nasas-new-mission-will-study-earths-water-from-space" target="_blank" class="ri-link">LA Times &mdash; NASA&rsquo;s new mission to study Earth&rsquo;s water from space</a></div></div></div>
+        <div class="recog-item"><div class="ri-date">Dec 2022</div><div class="ri-body"><span class="ri-type media">Media</span><div class="ri-name"><a href="https://www.newscientist.com/article/2343617-california-has-lost-more-groundwater-than-held-in-all-its-reservoirs/" target="_blank" class="ri-link">New Scientist &mdash; California&rsquo;s groundwater losses exceed all its reservoirs</a></div></div></div>
+        <div class="recog-item"><div class="ri-date">2022</div><div class="ri-body"><span class="ri-type media">Media</span><div class="ri-name"><a href="https://earth.stanford.edu/news/reasons-hope-amid-californias-drought" target="_blank" class="ri-link">Stanford Earth &mdash; Reasons for hope amid California&rsquo;s drought</a></div></div></div>
+        <div class="recog-item"><div class="ri-date">2022</div><div class="ri-body"><span class="ri-type media">Media</span><div class="ri-name"><a href="https://www.newsweek.com/california-drought-rain-reservoirs-groundwater-1772590" target="_blank" class="ri-link">Newsweek &mdash; California drought, rain, and groundwater</a></div></div></div>
+        <div class="recog-item"><div class="ri-date">2020</div><div class="ri-body"><span class="ri-type award">Award</span><div class="ri-name">National Geographic Explorer</div><div class="ri-org">Drone mapping &amp; flood monitoring grant</div></div></div>
+        <div class="recog-item"><div class="ri-date">2018</div><div class="ri-body"><span class="ri-type media">Media</span><div class="ri-name"><a href="https://www.nasa.gov/feature/goddard/2018/scientists-deploy-damage-assessment-tool-in-laos-relief-efforts" target="_blank" class="ri-link">NASA.gov &mdash; Scientists deploy damage assessment tool in Laos relief efforts</a></div></div></div>
+        <div class="recog-item"><div class="ri-date">2016</div><div class="ri-body"><span class="ri-type media">Media</span><div class="ri-name"><a href="https://www.nasa.gov/feature/goddard/2016/using-nasa-data-to-detect-potential-landslides/" target="_blank" class="ri-link">NASA.gov &mdash; Using NASA data to detect potential landslides</a></div></div></div>
+        <div class="recog-item"><div class="ri-date">2016</div><div class="ri-body"><span class="ri-type media">Media</span><div class="ri-name"><a href="https://earthobservatory.nasa.gov/images/88319" target="_blank" class="ri-link">NASA Earth Observatory &mdash; Natural Hazards feature</a></div></div></div>
+        <div class="recog-item"><div class="ri-date">2015</div><div class="ri-body"><span class="ri-type award">Patent</span><div class="ri-name">NASA DRIP-SLIP Landslide Detection Package</div><div class="ri-org">LAR-18789 &mdash; NASA Software Catalog</div></div></div>
+        <div class="recog-item"><div class="ri-date">2014</div><div class="ri-body"><span class="ri-type media">Media</span><div class="ri-name"><a href="https://www.fastcompany.com/3031162/citizen-air-quality-sensors-cover-the-places-governments-cant-reach" target="_blank" class="ri-link">Fast Company &mdash; Citizen air quality sensors</a></div></div></div>
+        <div class="recog-item"><div class="ri-date">2012</div><div class="ri-body"><span class="ri-type award">Award</span><div class="ri-name">Nancy Juerges Award for Outstanding Geomorphology Research</div><div class="ri-org">Franklin &amp; Marshall College</div></div></div>
+    </div>
+</div></section>
+
+<section id="connect"><div class="container">
+    <div class="sec-label">05 / Connect</div>
+    <h2 class="sec-title">Find Me</h2>
+    <div class="cg fi" style="margin-top:1.5rem">
+        <a href="https://scholar.google.com/citations?user=SKP6MzMAAAAJ&hl=en" target="_blank" class="cl"><svg viewBox="0 0 24 24"><path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/></svg>Google Scholar</a>
+        <a href="https://github.com/kashingtonDC" target="_blank" class="cl"><svg viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>GitHub</a>
+        <a href="https://www.linkedin.com/in/aakashahamed/" target="_blank" class="cl"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
+        <a href="https://nres.calpoly.edu/dr-aakash-ahamed" target="_blank" class="cl"><svg viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>Cal Poly</a>
+        <a href="https://substack.com/@backpackersci" target="_blank" class="cl"><svg viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>Substack</a>
+        <a href="/cdn-cgi/l/email-protection#4021212b2133282128212d252400272d21292c6e232f2d" class="cl"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>Email</a>
+    </div>
+</div></section>
+
+<footer><p>Aakash Ahamed &copy; 2026 &middot; <span class="co">35.2828&deg; N, 120.6596&deg; W</span> &middot; San Luis Obispo, CA</p></footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60));
+const hb=document.getElementById('hamburger'),nl=document.getElementById('navLinks');
+hb.addEventListener('click',()=>nl.classList.toggle('open'));
+nl.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nl.classList.remove('open')));
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis')});},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
+
+// Rotating gallery
+(function(){
+    const track=document.getElementById('gsTrack');
+    const slides=track.querySelectorAll('.gs-i');
+    const dotsC=document.getElementById('gsDots');
+    const total=slides.length;
+    const visible=window.innerWidth<=600?1:window.innerWidth<=920?2:3;
+    const pages=Math.ceil(total/visible);
+    let current=0;
+
+    // Build dots
+    for(let i=0;i<pages;i++){
+        const d=document.createElement('button');
+        d.className='gs-dot'+(i===0?' active':'');
+        d.addEventListener('click',()=>goTo(i));
+        dotsC.appendChild(d);
+    }
+    const dots=dotsC.querySelectorAll('.gs-dot');
+
+    function goTo(p){
+        current=p;
+        const w=slides[0].offsetWidth;
+        track.style.transform=`translateX(-${p*visible*w}px)`;
+        dots.forEach((d,i)=>d.classList.toggle('active',i===p));
+    }
+
+    // Auto-rotate every 5s
+    let timer=setInterval(()=>goTo((current+1)%pages),5000);
+    track.parentElement.addEventListener('mouseenter',()=>clearInterval(timer));
+    track.parentElement.addEventListener('mouseleave',()=>{timer=setInterval(()=>goTo((current+1)%pages),5000);});
+})();
+
+// Portfolio
+const grid=document.getElementById('pfGrid');
+const cards=Array.from(grid.querySelectorAll('.pf-card'));
+const countEl=document.getElementById('pfCount');
+
+function applyFilter(type,project){
+    let c=0;
+    cards.forEach(card=>{
+        let show=true;
+        if(type&&type!=='all')show=show&&card.dataset.type===type;
+        if(project)show=show&&card.dataset.project===project;
+        card.classList.toggle('hidden',!show);
+        card.classList.toggle('highlighted',show&&(project||(type&&type!=='all')));
+        if(show)c++;
+    });
+    countEl.textContent=c;
+}
+
+document.querySelectorAll('.pf-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+        document.querySelectorAll('.pf-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        applyFilter(btn.dataset.filter,null);
+        setTimeout(()=>cards.forEach(c=>c.classList.remove('highlighted')),2500);
+    });
+});
+
+document.querySelectorAll('.pf-sort-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+        document.querySelectorAll('.pf-sort-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const sorted=[...cards].sort((a,b)=>{
+            if(btn.dataset.sort==='date')return parseInt(b.dataset.year)-parseInt(a.dataset.year);
+            if(btn.dataset.sort==='project')return a.dataset.project.localeCompare(b.dataset.project);
+            return 0;
+        });
+        sorted.forEach(c=>grid.appendChild(c));
+    });
+});
+
+function filterFromMetric(el){
+    const type=el.dataset.filterType;
+    const project=el.dataset.filterProject;
+    document.getElementById('portfolio').scrollIntoView({behavior:'smooth'});
+    setTimeout(()=>{
+        document.querySelectorAll('.pf-btn').forEach(b=>b.classList.remove('active'));
+        const mb=document.querySelector(`.pf-btn[data-filter="${type}"]`);
+        if(mb)mb.classList.add('active');
+        let c=0;
+        cards.forEach(card=>{
+            const tm=card.dataset.type===type;
+            const pm=card.dataset.project===project;
+            card.classList.toggle('hidden',!tm);
+            card.classList.toggle('highlighted',tm&&pm);
+            if(tm)c++;
+        });
